@@ -6,10 +6,26 @@ points = [0 for i in range(len(lines))]
 for i in range(len(lines)):
     points[i] = [float(coord) for coord in lines[i].split(',')]
 
-k = int(sys.argv[1])
+try:
+    k = int(sys.argv[1])
+    if k <= 0:
+        print("Error in K argument!")
+        exit()
+except ValueError:
+    print("Error in K argument!")
+    exit()
+
 max_iter = 200
 if len(sys.argv) > 2:
-    max_iter = int(sys.argv[2])
+    try:
+        max_iter = int(sys.argv[2])
+        if max_iter < 0:
+            print("Error in max_iter argument!")
+            exit()
+    except ValueError:
+        print("Error in max_iter argument!")
+        exit()
+
 centroids = [0.0] * k
 point_to_cluster = dict()
 dim = len(points[0])
