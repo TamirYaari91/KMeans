@@ -25,13 +25,13 @@ int main(int argc, char *argv[]) {
     sscanf(argv[1], "%d", &k);
     if (k <= 0) {
         printf("Error in k argument!");
-        exit(0);
+        return 0;
     }
     if (argc > 2) {
         sscanf(argv[2], "%d", &max_iter);
         if (max_iter <= 0) {
             printf("Error in max_iter argument!");
-            exit(0);
+            return 0;
         }
     } else {
         max_iter = 200;
@@ -43,6 +43,10 @@ int main(int argc, char *argv[]) {
         if (c == '\n') {
             num_of_lines++;
         }
+    }
+    if (k > num_of_lines) {
+        printf("Error in k argument!");
+        return 0;
     }
     centroids = (double *) malloc(k * (dim + 1) * sizeof(double));
     points_to_cluster = (double *) malloc(num_of_lines * (dim + 1) * sizeof(double));
@@ -87,6 +91,8 @@ int main(int argc, char *argv[]) {
             printf("\n");
         }
     }
+    free(centroids);
+    free(points_to_cluster);
     return 0;
 }
 
@@ -172,7 +178,9 @@ int update_centroids(int k, int num_of_points, double *p2c, double *centroids, i
             }
             changed = 1;
         }
+        free(new_centroid);
     }
+    free(c2p);
     return changed;
 }
 
