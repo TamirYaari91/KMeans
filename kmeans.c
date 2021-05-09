@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
             num_of_lines++;
         }
     }
-    if (k > num_of_lines) {
+    if (k >= num_of_lines) {
         printf("Error in k argument!");
         return 0;
     }
@@ -84,7 +84,7 @@ int main(int argc, char *argv[]) {
     }
 
     for (i = 0; i < (k * dim); ++i) {
-        printf("%.4lf", centroids[i]);
+        printf("%.4f", centroids[i]);
         if ((i + 1) % dim != 0) {
             printf(",");
         } else {
@@ -193,5 +193,3 @@ int equal(double *arr1, double *arr2, int dim) {
     }
     return 1;
 }
-
-
