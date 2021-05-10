@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
+
 
 double distance(double[], double *, int, int);
 
@@ -12,7 +14,7 @@ int update_centroids(int, int, double *, double *, int);
 int equal(double *, double *, int);
 
 int main(int argc, char *argv[]) {
-    double n1;
+    double n1, k_double;
     char c;
     int changed;
     double *centroids;
@@ -20,16 +22,18 @@ int main(int argc, char *argv[]) {
     int i, j, k, iters, max_iter;
     int dim = 0;
     int num_of_lines = 0;
+    char* end_k;
+    char* end_max_iter;
 
 
-    sscanf(argv[1], "%d", &k);
-    if (k <= 0) {
+    k = strtol(argv[1],&end_k,10);
+    if (*end_k != '\0' || k <= 0) {
         printf("Error in k argument!");
         return 0;
     }
     if (argc > 2) {
-        sscanf(argv[2], "%d", &max_iter);
-        if (max_iter <= 0) {
+        max_iter = strtol(argv[2],&end_max_iter,10);
+        if (*end_max_iter != '\0' || max_iter <= 0) {
             printf("Error in max_iter argument!");
             return 0;
         }
@@ -49,7 +53,9 @@ int main(int argc, char *argv[]) {
         return 0;
     }
     centroids = (double *) malloc(k * (dim + 1) * sizeof(double));
+    assert(centroids);
     points_to_cluster = (double *) malloc(num_of_lines * (dim + 1) * sizeof(double));
+    assert(points_to_cluster);
     for (i = 0; i < num_of_lines * (dim + 1); ++i) {
         points_to_cluster[i] = 0.0;
     }
@@ -112,6 +118,7 @@ void set_cluster(int p_index, int k, double *point_to_cluster, double *centroids
     int min_index = 0;
     double *distances;
     distances = (double *) malloc(k * sizeof(double));
+    assert(distances);
 
     for (i = 0; i < k; ++i) {
         distances[i] = distance((point_to_cluster + p_index * (dim + 1)), centroids, i, dim);
@@ -129,6 +136,7 @@ double *cluster_mean(int cluster, int *c2p, double *p2c, int dim, int num_of_poi
     int i, j;
     static double *center;
     center = (double *) malloc(dim * sizeof(double));
+    assert(center);
     size = 0;
     val = 0.0;
     for (i = 0; i < dim; ++i) {
@@ -152,6 +160,7 @@ int update_centroids(int k, int num_of_points, double *p2c, double *centroids, i
     int *c2p;
     int i, j, changed;
     c2p = (int *) malloc(k * num_of_points * sizeof(int));
+    assert(c2p);
 
     for (i = 0; i < k; ++i) {
         for (j = 0; j < num_of_points; ++j) {
