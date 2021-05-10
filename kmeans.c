@@ -14,7 +14,7 @@ int update_centroids(int, int, double *, double *, int);
 int equal(double *, double *, int);
 
 int main(int argc, char *argv[]) {
-    double n1, k_double;
+    double n1;
     char c;
     int changed;
     double *centroids;
